@@ -10,9 +10,6 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Row } from 'antd';
 import Link from 'next/link'
-import { getCookie } from 'cookies-next'
-import { verifica } from '@/service/user';
-import { useRouter } from 'next/router';
 const { Header, Sider, Content } = Layout;
 
 export default function Home() {
@@ -20,8 +17,6 @@ export default function Home() {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-const router = useRouter()
-
 
   return (
     <Layout style={{ overflow: 'auto'}}>

@@ -2,7 +2,7 @@ import { sendMail } from "../../service/mailService";
 const handler = async (req, res) => {
   try {
     const { method } = req;
-    const { title, emails, text } = req.body
+    const { title, emails, text } = JSON.parse(req.body)
     switch (method) {
       case "POST": {
         await sendMail(

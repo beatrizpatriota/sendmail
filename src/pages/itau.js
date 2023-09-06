@@ -9,13 +9,13 @@ import {
   UserOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme, Row, Col, Table, Select, Modal } from 'antd';
+import { Layout, Menu, Button, theme, Row, Col, Table, Select, Modal, Input } from 'antd';
 const { Header, Sider, Content } = Layout;
 
 export default function Itau() {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedRows, setSelectedRows] = useState([])
-  const [showValor, setShowValor] = useState(false)
+  const [email, setEmail] = useState('')
   const [parcela, setParcela] = useState()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
@@ -117,9 +117,9 @@ export default function Itau() {
     setIsModalOpen(true);
   };
   const handleOk = async () => {
-    await fetch('https://sendmail-six.vercel.app/api/sendmail', {
+    await fetch('/api/sendmail', {
       method: 'POST',
-      body: JSON.stringify({title: 'Proposta de efetuação de acordo de pagamento', emails: ['biaapatriota@gmail.com'], text: `Valor da proposta: ${valorSelecionado()}`})
+      body: JSON.stringify({title: 'Proposta de efetuação de acordo de pagamento', emails: email, text: `Valor da proposta: ${valorSelecionado()}, com parcelas de ${parcela}`})
     })
     setIsModalOpen(false)
   };
@@ -185,10 +185,22 @@ export default function Itau() {
             <Col span={24}><p>Valor restante de dívidas: {simularPagamento()}</p></Col>
           </Row>
           <Button onClick={() => showModal()}>Simular pagamento</Button>
-          <Modal title="Simulação de pagamento" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+          <Modal 
+          title="Simulação de pagamento" 
+          open={isModalOpen} 
+          onOk={handleOk} 
+          onCancel={handleCancel}
+          footer={[
+            <Button key="back" onClick={handleCancel}>
+              Cancelar
+            </Button>,
+            <Button key="submit" type="primary" onClick={handleOk}>
+              Efetivar acordo via e-mail
+            </Button>,
+          ]}
+          >
           <p>Valor selecionado para pagamento de dívidas: {valorSelecionado()} reais</p>
           <p>Número de parcelas: <Select
-          defaultValue={5}
           options={[
             {
               value: '5',
@@ -233,6 +245,8 @@ export default function Itau() {
           onChange={handleChange}
           ></Select></p>
           <p>Valor de cada parcela: {parcela}</p>
+          <p>Digite seu e-mail para enviar o acordo:</p>
+          <Input placeholder="E-mail para envio da proposta de pagamento" value={email} onChange={(e) => setEmail(e.target.value)}/>
       </Modal>
           </Row>
           

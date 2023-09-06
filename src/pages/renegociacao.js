@@ -130,39 +130,6 @@ export default function Itau() {
 
   return (
     <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed} style={{ height: '100vh'}}>
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'Perfil',
-            }
-          ]}
-        />
-      </Sider>
-      <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
-        </Header>
         <Content
           style={{
             margin: '24px 16px',
@@ -249,9 +216,7 @@ export default function Itau() {
           <Input placeholder="E-mail para envio da proposta de pagamento" value={email} onChange={(e) => setEmail(e.target.value)}/>
       </Modal>
           </Row>
-          
         </Content>
       </Layout>
-    </Layout>
   );
 }

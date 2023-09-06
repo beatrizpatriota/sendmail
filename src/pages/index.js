@@ -19,40 +19,7 @@ export default function Home() {
   } = theme.useToken();
 
   return (
-    <Layout style={{ overflow: 'auto'}}>
-      <Sider trigger={null} collapsible collapsed={collapsed} style={{ height: '100vh'}}>
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <UserOutlined />,
-              label: 'Perfil',
-            }
-          ]}
-        />
-      </Sider>
-      <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
-          />
-        </Header>
+    <Layout>
         <Content
           style={{
             margin: '24px 16px',
@@ -69,13 +36,12 @@ export default function Home() {
           <div style={{color: 'black', width: '100%', padding: '60px', textAlign: 'center'}}>
             <h1>Quais dívidas você gostaria de renegociar?</h1>
             <div style={{marginTop: '20px'}}>
-            <Link href="/itau"><Button icon={<HomeOutlined />}>Dívidas do Itaú</Button></Link>
+            <Link href="/renegociacao"><Button icon={<HomeOutlined />}>Dívidas do Itaú</Button></Link>
             <Link href="https://renegocie.gruporecovery.com/registro?utm_medium=lprenegocie&utm_source=reneg&utm_campaign=renegitau"><Button icon={<CarOutlined />}>Outras dívidas</Button></Link>          
             </div>
           </div>
           </Row>
         </Content>
-      </Layout>
     </Layout>
   );
 }

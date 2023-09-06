@@ -17,6 +17,8 @@ export default function Itau() {
   const [selectedRows, setSelectedRows] = useState([])
   const [email, setEmail] = useState('')
   const [parcela, setParcela] = useState()
+  const [valorParcela, setValorParcela] = useState()
+  const [showTable, setShowTable] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     token: { colorBgContainer },
@@ -109,8 +111,10 @@ export default function Itau() {
 
   const handleChange = (value) => {
     const valorTotal = valorSelecionado()
-    const valor = valorTotal/value
+    const valor = (valorTotal/value) * 9
     setParcela(valor)
+    setValorParcela(value)
+    setShowTable(true)
   };
 
   const showModal = () => {
@@ -127,6 +131,33 @@ export default function Itau() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const dataParcelas = [
+    {
+      key: 1,
+      parcela: valorParcela,
+      juros: 9,
+      valor: parcela
+    }
+  ]
+
+  const columnsParcelas = [
+    {
+      title: 'Quantidade de parcelas',
+      dataIndex: 'parcela',
+      key: 'parcela',
+    },
+    {
+      title: 'Taxa efetiva',
+      dataIndex: 'juros',
+      key: 'juros',
+    },
+    {
+      title: 'Primeira parcela',
+      dataIndex: 'valor',
+      key: 'valor',
+    },
+  ];
 
   return (
     <Layout>
@@ -170,40 +201,40 @@ export default function Itau() {
           <p>Número de parcelas: <Select
           options={[
             {
-              value: '5',
-              label: '5',
+              value: '12',
+              label: '12',
             },
             {
-              value: '10',
-              label: '10',
+              value: '24',
+              label: '24',
             },
             {
-              value: '15',
-              label: '15',
+              value: '36',
+              label: '36',
             },
             {
-              value: '20',
-              label: '20',
-            },
-            {
-              value: '25',
-              label: '25',
-            },
-            {
-              value: '30',
-              label: '30',
-            },
-            {
-              value: '40',
-              label: '40',
-            },
-            {
-              value: '50',
-              label: '50',
+              value: '48',
+              label: '48',
             },
             {
               value: '60',
               label: '60',
+            },
+            {
+              value: '72',
+              label: '72',
+            },
+            {
+              value: '84',
+              label: '84',
+            },
+            {
+              value: '108',
+              label: '108',
+            },
+            {
+              value: '120',
+              label: '120',
             }
           ]}
           style={{
@@ -211,7 +242,7 @@ export default function Itau() {
           }}
           onChange={handleChange}
           ></Select></p>
-          <p>Valor de cada parcela: {parcela}</p>
+          {showTable && <Table style={{width: '100%'}} dataSource={dataParcelas} columns={columnsParcelas} />}
           <p>Digite seu e-mail para enviar o acordo:</p>
           <Input placeholder="E-mail para envio da proposta de pagamento" value={email} onChange={(e) => setEmail(e.target.value)}/>
       </Modal>

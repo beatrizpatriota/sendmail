@@ -1,19 +1,16 @@
 "use client"
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   CarOutlined,
-  HomeOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UserOutlined
+  HomeOutlined
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme, Row } from 'antd';
+import { Layout, Button, theme, Row } from 'antd';
 import Link from 'next/link'
-const { Header, Sider, Content } = Layout;
+
+const {  Content } = Layout;
 
 export default function Home() {
-  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();

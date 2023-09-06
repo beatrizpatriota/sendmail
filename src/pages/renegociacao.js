@@ -1,16 +1,8 @@
 "use client"
 import React, { useState } from 'react';
-import {
-  CarOutlined,
-  HomeOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import { Layout, Menu, Button, theme, Row, Col, Table, Select, Modal, Input } from 'antd';
-const { Header, Sider, Content } = Layout;
+import { Layout, Button, theme, Row, Col, Table, Select, Modal, Input } from 'antd';
+
+const { Content } = Layout;
 
 export default function Itau() {
   const [collapsed, setCollapsed] = useState(false);

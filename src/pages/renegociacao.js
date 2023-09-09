@@ -16,12 +16,13 @@ export default function Itau(props) {
     token: { colorBgContainer },
   } = theme.useToken();
   const [data, setData] = useState([])
-
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     const dataFetch = async () => { 
       const res = await fetch('/api/getDividas')
       const dataSource = await res.json()
       setData(dataSource)
+      setLoading(false)
     }
     dataFetch()
       }, [])
@@ -206,7 +207,7 @@ export default function Itau(props) {
           }}
           onChange={handleChange}
           ></Select></p>
-          {showTable && <Table style={{width: '100%'}} dataSource={dataParcelas} columns={columnsParcelas} />}
+          {showTable && <Table style={{width: '100%'}} loading={loading} dataSource={dataParcelas} columns={columnsParcelas} />}
           <p>Digite seu e-mail para enviar o acordo:</p>
           <Input placeholder="E-mail para envio da proposta de pagamento" value={email} onChange={(e) => setEmail(e.target.value)}/>
       </Modal>

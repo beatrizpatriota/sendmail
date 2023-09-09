@@ -4,7 +4,7 @@ import { Layout, Button, theme, Row, Col, Table, Select, Modal, Input } from 'an
 
 const { Content } = Layout;
 
-export default function Itau() {
+export default function Itau(props) {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedRows, setSelectedRows] = useState([])
   const [email, setEmail] = useState('')
@@ -15,45 +15,7 @@ export default function Itau() {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const dataSource = [
-    {
-      key: '1',
-      value: 300000,
-      segmento: 'Apartamento',
-      address: '10 Downing Street',
-    },
-    {
-      key: '2',
-      value: 45000,
-      segmento: 'Casa',
-      address: '10 Downing Street',
-    },
-    {
-      key: '3',
-      value: 45000,
-      segmento: 'Casa',
-      address: '10 Downing Street',
-    },
-    {
-      key: '4',
-      value: 45000,
-      segmento: 'Casa',
-      address: '10 Downing Street',
-    },
-    {
-      key: '5',
-      value: 4500,
-      segmento: 'Casa',
-      address: '10 Downing Street',
-    },
-    {
-      key: '6',
-      value: 4500,
-      segmento: 'Casa',
-      address: '10 Downing Street',
-    },
-  ];
-  const [data, setData] = useState(dataSource)
+  const [data, setData] = useState(props.dataSource)
   const columns = [
     {
       title: 'Valor da dívida',
@@ -83,8 +45,8 @@ export default function Itau() {
 
   const valorTotal = () => {
     let valor = 0
-    for(let i = 0; i< dataSource.length; i++) {
-      valor += dataSource[i].value
+    for(let i = 0; i< props.dataSource.length; i++) {
+      valor += props.dataSource[i].value
         }
     return valor
   }
@@ -242,4 +204,16 @@ export default function Itau() {
         </Content>
       </Layout>
   );
+}
+
+export async function getStaticProps() {
+
+  const res = await fetch('https://sendmail-six.vercel.app/api/getDividas')
+  const dataSource = await res.json()
+
+  return {
+    props: {
+    dataSource,
+    },
+  }
 }

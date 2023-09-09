@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Button, theme, Row, Col, Table, Select, Modal, Input } from 'antd';
 
 const { Content } = Layout;
@@ -15,7 +15,17 @@ export default function Itau(props) {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const [data, setData] = useState(props.dataSource)
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    const dataFetch = async () => { 
+      const res = await fetch('/api/getDividas')
+      const dataSource = await res.json()
+      setData(dataSource)
+    }
+    dataFetch()
+      }, [])
+  
   const columns = [
     {
       title: 'Valor da dívida',
@@ -45,8 +55,8 @@ export default function Itau(props) {
 
   const valorTotal = () => {
     let valor = 0
-    for(let i = 0; i< props.dataSource.length; i++) {
-      valor += props.dataSource[i].value
+    for(let i = 0; i< data.length; i++) {
+      valor += data[i].value
         }
     return valor
   }
@@ -204,16 +214,4 @@ export default function Itau(props) {
         </Content>
       </Layout>
   );
-}
-
-export async function getStaticProps() {
-
-  const res = await fetch('https://sendmail-six.vercel.app/api/getDividas')
-  const dataSource = await res.json()
-
-  return {
-    props: {
-    dataSource,
-    },
-  }
 }

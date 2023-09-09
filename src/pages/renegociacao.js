@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Layout, Button, theme, Row, Col, Table, Select, Modal, Input } from 'antd';
 
 const { Content } = Layout;
@@ -15,18 +15,7 @@ export default function Itau(props) {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    const dataFetch = async () => { 
-      const res = await fetch('/api/getDividas')
-      const dataSource = await res.json()
-      setData(dataSource)
-      setLoading(false)
-    }
-    dataFetch()
-      }, [])
-  
+  const [data, setData] = useState(props.dataSource)
   const columns = [
     {
       title: 'Valor da dívida',
@@ -56,8 +45,8 @@ export default function Itau(props) {
 
   const valorTotal = () => {
     let valor = 0
-    for(let i = 0; i< data.length; i++) {
-      valor += data[i].value
+    for(let i = 0; i< props.dataSource.length; i++) {
+      valor += props.dataSource[i].value
         }
     return valor
   }
@@ -207,7 +196,7 @@ export default function Itau(props) {
           }}
           onChange={handleChange}
           ></Select></p>
-          {showTable && <Table style={{width: '100%'}} loading={loading} dataSource={dataParcelas} columns={columnsParcelas} />}
+          {showTable && <Table style={{width: '100%'}} dataSource={dataParcelas} columns={columnsParcelas} />}
           <p>Digite seu e-mail para enviar o acordo:</p>
           <Input placeholder="E-mail para envio da proposta de pagamento" value={email} onChange={(e) => setEmail(e.target.value)}/>
       </Modal>
@@ -215,4 +204,15 @@ export default function Itau(props) {
         </Content>
       </Layout>
   );
+}
+
+export async function getStaticProps() {
+  const res = await fetch('https://sendmail-six.vercel.app/api/getDividas')
+  const dataSource = await res.json()
+
+  return {
+    props: {
+    dataSource,
+    },
+  }
 }
